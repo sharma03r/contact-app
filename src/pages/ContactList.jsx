@@ -41,7 +41,7 @@ function ContactList() {
           { contact }
         )
         .then((res) => {
-          console.log(res);
+          console.log(res, "res");
           const updatedContactList = contactList.map((contact) =>
             contact.id === updatedContact.id ? res.data.contact : contact
           );
