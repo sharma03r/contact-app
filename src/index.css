@@ -35,7 +35,7 @@ label {
 
 input[type="text"],
 input[type="email"],
-input[type="number"] {
+input[type="tel"] {
   width: 80%; /* Make inputs full width */
   padding: 10px; /* Add padding to inputs */
   border: 1px solid #ccc; /* Add a thin border */

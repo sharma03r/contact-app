@@ -30,19 +30,40 @@ function ContactList() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(contact);
-    axios
-      .post("https://jsonplaceholder.typicode.com/users", {
-        name: contact.name,
-        email: contact.email,
-        phone: contact.phone,
-      })
-      .then((res) => {
-        setContactList([...contactList, res.data]);
-      })
-      .catch((err) => {
-        console.log(`Error updating the ${err}`);
-      });
+    console.log("thos", contact);
+    const updatedContact = contactList.find(
+      (item) => item.phone === contact.phone
+    );
+    if (updatedContact) {
+      axios
+        .put(
+          `https://jsonplaceholder.typicode.com/users/${updatedContact.id}`,
+          { contact }
+        )
+        .then((res) => {
+          console.log(res);
+          const updatedContactList = contactList.map((contact) =>
+            contact.id === updatedContact.id ? res.data.contact : contact
+          );
+          setContactList(updatedContactList);
+        })
+        .catch((err) => {
+          console.log(`Error updating the contact ${err}`);
+        });
+    } else {
+      axios
+        .post("https://jsonplaceholder.typicode.com/users", {
+          name: contact.name,
+          email: contact.email,
+          phone: contact.phone,
+        })
+        .then((res) => {
+          setContactList([...contactList, res.data]);
+        })
+        .catch((err) => {
+          console.log(`Error updating the ${err}`);
+        });
+    }
     setContact({
       name: "",
       email: "",
@@ -75,7 +96,7 @@ function ContactList() {
             type="text"
             id="name"
             name="name"
-            placeholder="Name"
+            placeholder="name"
             onChange={handleChange}
             value={contact.name}
           />
@@ -90,7 +111,7 @@ function ContactList() {
           />
           <label htmlFor="phone">Phone:</label>
           <input
-            type="number"
+            type="tel"
             id="phone"
             name="phone"
             placeholder="phone"
